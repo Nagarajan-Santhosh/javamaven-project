@@ -1,0 +1,15 @@
+node {   
+    stage('Clone repository') {
+        git credentialsId: 'dockerhub', url: 'https://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@github.com/Nagarajan-Santhosh/javaproject.git/'
+    }
+    
+    stage('Build image') {
+       dockerImage = docker.build("santhoshsp/java:v1")
+    }
+    
+ stage('Push image') {
+        withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+        dockerImage.push()
+        }
+    }    
+}
